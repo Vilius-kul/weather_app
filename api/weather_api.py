@@ -1,6 +1,14 @@
+from typing import Optional
+
 import fastapi
+from fastapi import Depends
+
+from models.location import Location
 
 router = fastapi.APIRouter()
-@router.get('/api/weather/')
-def weather():
-    return "Some weather report"
+
+
+
+@router.get('/api/weather/{city}')
+def weather(loc: Location = Depends(), units: Optional[str] = 'metric'):
+    return f"{loc.city}, {loc.country} in {units}"
