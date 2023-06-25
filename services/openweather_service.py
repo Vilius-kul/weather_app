@@ -15,4 +15,6 @@ def get_report(city: str,state: Optional[str], country: str, units: Optional[str
     resp.raise_for_status()
 
     data = resp.json()
-    return data
+    # return data
+    forcast = data['main']
+    return forcast
