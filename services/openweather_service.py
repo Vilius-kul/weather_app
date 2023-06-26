@@ -1,9 +1,15 @@
-from typing import Optional
+from typing import Any, Optional
 
 import requests
 from fastapi import HTTPException
 
 api_key: Optional[str] = None
+
+
+class LocationException(HTTPException):
+    def __init__(self, status_code: int, error: Any):
+        super().__init__(status_code, detail=error)
+        self.error = error
 
 
 def get_report(city: str, region: Optional[str]) -> dict:
@@ -17,9 +23,7 @@ def get_report(city: str, region: Optional[str]) -> dict:
         if resp.status_code == 400:  # You might want to check the status code here
             data = resp.json()
             if data["error"]["code"] == 1006:  # Check if error code is 1006
-                raise HTTPException(
-                    status_code=400, detail="No matching location found."
-                )
+                raise LocationException(status_code=400, error=data)
         raise HTTPException(
             status_code=500, detail="Something went wrong."
         )  # You can add a generic error message here

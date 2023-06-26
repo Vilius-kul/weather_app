@@ -1,15 +1,28 @@
 import json
 from pathlib import Path
 
-import fastapi
 import uvicorn
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from api import weather_api
 from custom_exceptions import SettingsFileNotFoundError
 from services import openweather_service
+from services.openweather_service import LocationException
 
-api = fastapi.FastAPI()
+api = FastAPI()
+
+
+@api.exception_handler(LocationException)
+async def weather_api_exception_handler(
+    request: Request, exc: LocationException
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=exc.error,
+    )
+
 
 origins = [
     "*"
