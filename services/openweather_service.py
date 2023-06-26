@@ -18,5 +18,18 @@ def get_report(
     resp.raise_for_status()
 
     data = resp.json()
-    return data
+
+    try:
+        weather = {
+            'temperature': data['current'].get('temp_c'),
+            'condition': data['current']['condition'].get('text'),
+            'icon': data['current']['condition'].get('icon'),
+            'humidity': data['current'].get('humidity'),
+            'windSpeed': data['current'].get('wind_kph'),
+        }
+    except KeyError as e:
+        print(f"KeyError: {e}. The key does not exist in the response.")
+        return {}
+
+    return weather
 
