@@ -7,7 +7,6 @@ import uvicorn
 from api import weather_api
 from custom_exceptions import SettingsFileNotFoundError
 from services import openweather_service
-from views import home
 
 api = fastapi.FastAPI()
 
@@ -18,7 +17,6 @@ def configure() -> None:
 
 
 def configure_routing() -> None:
-    api.include_router(home.router)
     api.include_router(weather_api.router)
 
 
