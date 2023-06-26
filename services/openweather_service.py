@@ -5,18 +5,18 @@ import requests
 api_key: Optional[str] = None
 
 
-def get_report(city: str, state: Optional[str], country: str, units: Optional[str]):
-    if state:
-        q = f"{city},{state},{country}"
+def get_report(
+    city: str, region: Optional[str]) -> dict:
+    if region:
+        q = f"{city},{region}"
     else:
-        q = f"{city},{country}"
+        q = f"{city}"
 
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={q}&appid={api_key}&units={units}"
+    url = f"https://api.weatherapi.com/v1/current.json?key={api_key}&q={q}&aqi=no"
 
     resp = requests.get(url)
     resp.raise_for_status()
 
     data = resp.json()
-    # return data
-    forcast = data["main"]
-    return forcast
+    return data
+
