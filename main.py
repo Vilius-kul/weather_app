@@ -12,17 +12,17 @@ from views import home
 api = fastapi.FastAPI()
 
 
-def configure():
+def configure() -> None:
     configure_routing()
     configure_api_keys()
 
 
-def configure_routing():
+def configure_routing() -> None:
     api.include_router(home.router)
     api.include_router(weather_api.router)
 
 
-def configure_api_keys():
+def configure_api_keys() -> None:
     file = Path("settings.json").absolute()
     if not file.exists():
         print(

@@ -4,5 +4,5 @@ router = fastapi.APIRouter()
 
 
 @router.get("/")
-def index():
+def index() -> str:
     return "Hello weather app!"
