@@ -3,12 +3,25 @@ from pathlib import Path
 
 import fastapi
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 from api import weather_api
 from custom_exceptions import SettingsFileNotFoundError
 from services import openweather_service
 
 api = fastapi.FastAPI()
+
+origins = [
+    "*"
+]  # allowing all origins can expose your application to potential security risks, such as cross-site request forgery (CSRF) attacks
+
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def configure() -> None:
