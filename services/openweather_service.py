@@ -1,9 +1,11 @@
 from typing import Optional
+
 import requests
 
 api_key: Optional[str] = None
 
-def get_report(city: str,state: Optional[str], country: str, units: Optional[str]):
+
+def get_report(city: str, state: Optional[str], country: str, units: Optional[str]):
     if state:
         q = f"{city},{state},{country}"
     else:
@@ -16,5 +18,5 @@ def get_report(city: str,state: Optional[str], country: str, units: Optional[str
 
     data = resp.json()
     # return data
-    forcast = data['main']
+    forcast = data["main"]
     return forcast
