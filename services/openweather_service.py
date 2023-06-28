@@ -1,15 +1,11 @@
-from typing import Any, Optional
+from typing import Optional
 
 import requests
 from fastapi import HTTPException
 
+from custom_exceptions import LocationException
+
 api_key: Optional[str] = None
-
-
-class LocationException(HTTPException):
-    def __init__(self, status_code: int, error: Any):
-        super().__init__(status_code, detail=error)
-        self.error = error
 
 
 def get_report(city: str, region: Optional[str]) -> dict:
@@ -29,6 +25,7 @@ def get_report(city: str, region: Optional[str]) -> dict:
         )  # You can add a generic error message here
 
     data = resp.json()
+
     weather = {
         "temperature": data["current"].get("temp_c"),
         "condition": data["current"]["condition"].get("text"),
